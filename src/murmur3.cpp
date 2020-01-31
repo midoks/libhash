@@ -32,12 +32,17 @@ extern "C"{
 
 #if defined(_MSC_VER)
 
+typedef unsigned char uint8_t;
+typedef unsigned long uint32_t;
+typedef unsigned __int64 uint64_t;
+
 #include <stdlib.h>
 #define ROTL32(x,y) _rotl(x,y)
 #define ROTL64(x,y) _rotl64(x,y)
 #define BIG_CONSTANT(x) (x)
 
 #else // defined(_MSC_VER)
+#include <stdint.h>
 
 inline uint32_t rotl32(uint32_t x, int8_t r) {
     return (x << r) | (x >> (32 - r));
@@ -270,6 +275,12 @@ PHP_METHOD(libhash_murmur3, to32) {
   strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s", "opencv");
 
   RETURN_STR(strg);
+}
+/* }}} */
+
+/** {{{ proto \OpenCV\ImgProc::__construct(string $source)
+*/
+PHP_METHOD(libhash_murmur3, __construct) {
 }
 /* }}} */
 
