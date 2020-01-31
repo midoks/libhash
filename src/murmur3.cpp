@@ -32,9 +32,9 @@ extern "C"{
 
 #if defined(_MSC_VER)
 
-typedef unsigned char uint8_t;
-typedef unsigned long uint32_t;
-typedef unsigned __int64 uint64_t;
+// typedef unsigned char uint8_t;
+// typedef unsigned long uint32_t;
+// typedef unsigned __int64 uint64_t;
 
 #include <stdlib.h>
 #define ROTL32(x,y) _rotl(x,y)
@@ -254,6 +254,18 @@ void MurmurHash3_x64_128(const void *key, const int len,
 // zend_class_entry * libhash_murmur3_ce;
 zend_class_entry * libhash_murmur3_ce_ns;
 
+ZEND_BEGIN_ARG_INFO_EX(libhash_murmur3_to32_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(libhash_murmur3_to64_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(libhash_murmur3_to128_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
 
 /** {{{ proto public \OpenCV\ImgProc::__desctruct(void)
 */
@@ -267,24 +279,83 @@ PHP_METHOD(libhash_murmur3, test) {
 /* }}} */
 
 
-/** {{{ proto public \OpenCV\ImgProc::__desctruct(void)
+/** {{{ proto public \LibHash\Murmur3::to32($val)
 */
 PHP_METHOD(libhash_murmur3, to32) {
-  
-  zend_string *strg;
-  strg = strpprintf(0, "Congratulations! You have successfully modified ext/%.78s", "opencv");
 
-  RETURN_STR(strg);
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  int32_t result[1];
+  MurmurHash3_x86_32(src, src_len, 0, result);
+  RETURN_LONG(result[0]);
 }
 /* }}} */
 
-/** {{{ proto \OpenCV\ImgProc::__construct(string $source)
+
+/** {{{ proto public \LibHash\Murmur3::to64($val)
+*/
+PHP_METHOD(libhash_murmur3, to64) {
+
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+  zval ret_val;
+  array_init(&ret_val);
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  uint64_t result[2];
+  MurmurHash3_x64_128(src, src_len, 0, result);
+
+  add_next_index_long(&ret_val, result[0]);
+  add_next_index_long(&ret_val, result[1]);
+
+  RETURN_ZVAL(&ret_val, 1, 1);
+}
+/* }}} */
+
+/** {{{ proto public \LibHash\Murmur3::to128($val)
+*/
+PHP_METHOD(libhash_murmur3, to128) {
+
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  uint64_t result[2];
+  MurmurHash3_x64_128(src, src_len, 0, result);
+
+  php_printf("v:%lld", (unsigned char *)result[0]);
+  php_printf("v:%lld", (unsigned char *)result[1]);
+
+  zval ret_val;
+  array_init(&ret_val);
+  add_next_index_long(&ret_val, result);
+  RETURN_ZVAL(&ret_val, 1, 1);
+
+  // RETURN_DOUBLE((unsigned char *)result);
+}
+/* }}} */
+
+/** {{{ proto \LibHash\Murmur3::__construct()
 */
 PHP_METHOD(libhash_murmur3, __construct) {
 }
 /* }}} */
 
-/** {{{ proto public \OpenCV\ImgProc::__desctruct(void)
+/** {{{ proto public \LibHash\Murmur3::__desctruct(void)
 */
 PHP_METHOD(libhash_murmur3, __destruct) {
 }
@@ -311,8 +382,10 @@ PHP_METHOD(libhash_murmur3, __clone) {
 /** {{{ libhash_murmur3_methods
 */
 zend_function_entry libhash_murmur3_methods[] = {
-  PHP_ME(libhash_murmur3, to32,                NULL,                      ZEND_ACC_PUBLIC)
-  PHP_ME(libhash_murmur3, test,                NULL,                      ZEND_ACC_PUBLIC)
+  PHP_ME(libhash_murmur3, to32,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+  PHP_ME(libhash_murmur3, to64,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+  PHP_ME(libhash_murmur3, to128,               NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+  PHP_ME(libhash_murmur3, test,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
   PHP_ME(libhash_murmur3, __construct,         NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
   PHP_ME(libhash_murmur3, __destruct,          NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
   PHP_ME(libhash_murmur3, __clone,             NULL,                      ZEND_ACC_PRIVATE)
