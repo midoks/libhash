@@ -19,14 +19,16 @@
 
 /* $Id$ */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+extern "C" {
+  #ifdef HAVE_CONFIG_H
+  #include "config.h"
+  #endif
 
-#include "php.h"
-#include "php_ini.h"
-#include "ext/standard/info.h"
-#include "php_libhash.h"
+  #include "php.h"
+  #include "php_ini.h"
+  #include "ext/standard/info.h"
+  #include "php_libhash.h"
+}
 
 /* If you declare any globals in php_libhash.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(libhash)
