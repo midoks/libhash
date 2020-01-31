@@ -251,7 +251,7 @@ void MurmurHash3_x64_128(const void *key, const int len,
 }
 
 
-zend_class_entry * libhash_murmur3_ce;
+// zend_class_entry * libhash_murmur3_ce;
 zend_class_entry * libhash_murmur3_ce_ns;
 
 
@@ -313,6 +313,7 @@ PHP_METHOD(libhash_murmur3, __clone) {
 zend_function_entry libhash_murmur3_methods[] = {
   PHP_ME(libhash_murmur3, to32,                NULL,                      ZEND_ACC_PUBLIC)
   PHP_ME(libhash_murmur3, test,                NULL,                      ZEND_ACC_PUBLIC)
+  PHP_ME(libhash_murmur3, __construct,         NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
   PHP_ME(libhash_murmur3, __destruct,          NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
   PHP_ME(libhash_murmur3, __clone,             NULL,                      ZEND_ACC_PRIVATE)
   PHP_ME(libhash_murmur3, __sleep,             NULL,                      ZEND_ACC_PRIVATE)
