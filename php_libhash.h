@@ -38,6 +38,18 @@ extern zend_module_entry libhash_module_entry;
 #include "TSRM.h"
 #endif
 
+
+#define LIBHASH_STARTUP_FUNCTION(module)     ZEND_MINIT_FUNCTION(libhash_##module)
+#define LIBHASH_RINIT_FUNCTION(module)       ZEND_RINIT_FUNCTION(libhash_##module)
+#define LIBHASH_STARTUP(module)              ZEND_MODULE_STARTUP_N(libhash_##module)(INIT_FUNC_ARGS_PASSTHRU)
+#define LIBHASH_SHUTDOWN_FUNCTION(module)    ZEND_MSHUTDOWN_FUNCTION(libhash_##module)
+#define LIBHASH_SHUTDOWN(module)             ZEND_MODULE_SHUTDOWN_N(libhash_##module)(INIT_FUNC_ARGS_PASSTHRU)
+
+
+#define LIBHASH_INIT_CLASS_ENTRY(ce, ce_ns, name, name_ns, methods)  \
+    INIT_CLASS_ENTRY(ce, name, methods);                            \
+    INIT_CLASS_ENTRY(ce_ns, name_ns, methods);
+
 /*
   	Declare any global variables you may need between the BEGIN
 	and END macros here:
@@ -57,6 +69,9 @@ ZEND_END_MODULE_GLOBALS(libhash)
 #if defined(ZTS) && defined(COMPILE_DL_LIBHASH)
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
+
+
+LIBHASH_STARTUP_FUNCTION(murmur3);
 
 #endif	/* PHP_LIBHASH_H */
 

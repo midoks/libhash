@@ -51,7 +51,16 @@ if test "$PHP_LIBHASH" != "no"; then
   dnl   -L$LIBHASH_DIR/$PHP_LIBDIR -lm
   dnl ])
   dnl
-  dnl PHP_SUBST(LIBHASH_SHARED_LIBADD)
+  
+  PHP_SUBST(LIBHASH_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(libhash, libhash.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+  PHP_ADD_LIBRARY(stdc++,"",LIBHASH_SHARED_LIBADD)
+  PHP_SUBST(LIBHASH_SHARED_LIBADD)
+  PHP_REQUIRE_CXX()
+
+  PHP_NEW_EXTENSION(libhash, libhash.cpp \
+      src/murmur3.cpp, 
+  $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+
+  PHP_ADD_BUILD_DIR([$ext_builddir/src])
 fi

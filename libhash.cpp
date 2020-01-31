@@ -1,3 +1,4 @@
+
 /*
   +----------------------------------------------------------------------+
   | PHP Version 7                                                        |
@@ -12,7 +13,7 @@
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
-  | Author:                                                              |
+  | Author:midoks                                                        |
   +----------------------------------------------------------------------+
 */
 
@@ -88,9 +89,10 @@ static void php_libhash_init_globals(zend_libhash_globals *libhash_globals)
  */
 PHP_MINIT_FUNCTION(libhash)
 {
-	/* If you have INI entries, uncomment these lines
-	REGISTER_INI_ENTRIES();
-	*/
+	// REGISTER_INI_ENTRIES();
+
+	LIBHASH_STARTUP(murmur3);
+
 	return SUCCESS;
 }
 /* }}} */
@@ -99,9 +101,8 @@ PHP_MINIT_FUNCTION(libhash)
  */
 PHP_MSHUTDOWN_FUNCTION(libhash)
 {
-	/* uncomment this line if you have INI entries
-	UNREGISTER_INI_ENTRIES();
-	*/
+	// UNREGISTER_INI_ENTRIES();
+	
 	return SUCCESS;
 }
 /* }}} */
@@ -135,9 +136,8 @@ PHP_MINFO_FUNCTION(libhash)
 	php_info_print_table_header(2, "libhash support", "enabled");
 	php_info_print_table_end();
 
-	/* Remove comments if you have entries in php.ini
+	
 	DISPLAY_INI_ENTRIES();
-	*/
 }
 /* }}} */
 
