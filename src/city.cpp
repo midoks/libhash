@@ -731,6 +731,76 @@ uint128 CityHashCrc128(const char *s, size_t len) {
 
 zend_class_entry * libhash_city_ce_ns;
 
+ZEND_BEGIN_ARG_INFO_EX(libhash_city_to32_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(libhash_city_to64_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(libhash_city_to128_arginfo, 0, 0, 0)
+  ZEND_ARG_INFO(0, val)
+ZEND_END_ARG_INFO()
+
+/** {{{ proto public \LibHash\City::to32($val)
+*/
+PHP_METHOD(libhash_city, to32) {
+
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  int64_t result;
+  result = CityHash32(src, src_len);
+  RETURN_LONG(result);
+}
+/* }}} */
+
+
+/** {{{ proto public \LibHash\City::to64($val)
+*/
+PHP_METHOD(libhash_city, to64) {
+
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  int64_t result;
+  result = CityHash64(src, src_len);
+  RETURN_LONG(result);
+}
+/* }}} */
+
+
+/** {{{ proto public \LibHash\City::to128($val)
+*/
+PHP_METHOD(libhash_city, to128) {
+
+  char *src = NULL;
+  zval *self = NULL;
+  size_t src_len;
+
+  if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
+    return;
+  }
+
+  uint128 result;
+  result = CityHash128(src, src_len);
+  php_printf("r1:%ld", result.first);
+  php_printf("r2:%ld", result.second);
+  // RETURN_LONG(result);
+}
+/* }}} */
+
 
 /** {{{ proto \LibHash\City::__construct()
 */
@@ -765,6 +835,9 @@ PHP_METHOD(libhash_city, __clone) {
 /** {{{ libhash_city_methods
 */
 zend_function_entry libhash_city_methods[] = {
+  PHP_ME(libhash_city, to32,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+  PHP_ME(libhash_city, to64,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+  PHP_ME(libhash_city, to128,               NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
   PHP_ME(libhash_city, __construct,         NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
   PHP_ME(libhash_city, __destruct,          NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
   PHP_ME(libhash_city, __clone,             NULL,                      ZEND_ACC_PRIVATE)
