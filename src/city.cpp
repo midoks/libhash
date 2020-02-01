@@ -789,15 +789,20 @@ PHP_METHOD(libhash_city, to128) {
   zval *self = NULL;
   size_t src_len;
 
+  zval ret_val;
+  array_init(&ret_val);
+
   if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|s", &src, &src_len) == FAILURE) {
     return;
   }
 
   uint128 result;
   result = CityHash128(src, src_len);
-  php_printf("r1:%ld", result.first);
-  php_printf("r2:%ld", result.second);
-  // RETURN_LONG(result);
+  
+  add_next_index_long(&ret_val, result.first);
+  add_next_index_long(&ret_val, result.second);
+
+  RETURN_ZVAL(&ret_val, 1, 1);
 }
 /* }}} */
 

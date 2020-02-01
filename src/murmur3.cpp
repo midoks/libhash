@@ -337,13 +337,8 @@ PHP_METHOD(libhash_murmur3, to128) {
   uint64_t result[2];
   MurmurHash3_x64_128(src, src_len, 0, result);
 
-  php_printf("v:%lld", (unsigned char *)result[0]);
-  php_printf("v:%lld", (unsigned char *)result[1]);
-
-  zval ret_val;
-  array_init(&ret_val);
-  add_next_index_long(&ret_val, result);
-  RETURN_ZVAL(&ret_val, 1, 1);
+  // php_printf("v:%lld", (unsigned char *)result[0]);
+  // php_printf("v:%lld", (unsigned char *)result[1]);
 
   // RETURN_DOUBLE((unsigned char *)result);
 }
@@ -384,7 +379,7 @@ PHP_METHOD(libhash_murmur3, __clone) {
 zend_function_entry libhash_murmur3_methods[] = {
   PHP_ME(libhash_murmur3, to32,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
   PHP_ME(libhash_murmur3, to64,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-  PHP_ME(libhash_murmur3, to128,               NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+//PHP_ME(libhash_murmur3, to128,               NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
   PHP_ME(libhash_murmur3, test,                NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
   PHP_ME(libhash_murmur3, __construct,         NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
   PHP_ME(libhash_murmur3, __destruct,          NULL,                      ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
@@ -406,7 +401,6 @@ LIBHASH_STARTUP_FUNCTION(murmur3) {
 
   // libhash_murmur3_ce = zend_register_internal_class_ex(&ce, NULL);
   // libhash_murmur3_ce_ns = zend_register_internal_class_ex(&ce_ns, NULL);
-
 
   zend_class_entry ce_ns;
   INIT_CLASS_ENTRY(ce_ns, "LibHash\\Murmur3", libhash_murmur3_methods);
