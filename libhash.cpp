@@ -94,6 +94,7 @@ PHP_MINIT_FUNCTION(libhash)
 	// REGISTER_INI_ENTRIES();
 
 	LIBHASH_STARTUP(murmur3);
+	LIBHASH_STARTUP(city);
 
 	return SUCCESS;
 }
