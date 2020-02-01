@@ -24,7 +24,8 @@
 extern zend_module_entry libhash_module_entry;
 #define phpext_libhash_ptr &libhash_module_entry
 
-#define PHP_LIBHASH_VERSION "0.1.0" /* Replace with version number for your extension */
+#define PHP_LIBHASH_VERSION "1.0"
+#define PHP_LIBHASH_URL "github.com/midoks/libhash"
 
 #ifdef PHP_WIN32
 #	define PHP_LIBHASH_API __declspec(dllexport)

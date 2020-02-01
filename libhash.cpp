@@ -137,9 +137,10 @@ PHP_MINFO_FUNCTION(libhash)
 {
 	php_info_print_table_start();
 	php_info_print_table_header(2, "libhash support", "enabled");
+	php_info_print_table_header(2, "libhash version", PHP_LIBHASH_VERSION);
+	php_info_print_table_header(2, "libhash git", PHP_LIBHASH_URL);
 	php_info_print_table_end();
 
-	
 	DISPLAY_INI_ENTRIES();
 }
 /* }}} */
