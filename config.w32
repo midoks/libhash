@@ -8,6 +8,6 @@
 ARG_ENABLE("libhash", "enable libhash support", "no");
 
 if (PHP_LIBHASH != "no") {
-	EXTENSION("libhash", "libhash.c", PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+	EXTENSION("libhash", "libhash.cpp src/murmur3.cpp src/city.cpp", PHP_EXTNAME_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
 }
 
